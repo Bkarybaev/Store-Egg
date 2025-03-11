@@ -16,4 +16,6 @@ public interface ProductService {
     Product findById(Long id);
 
     List<Product> search(String request);
+
+    SimpleResponse deleteProduct(Long productId);
 }

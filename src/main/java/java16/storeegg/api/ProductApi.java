@@ -39,4 +39,9 @@ public class ProductApi {
         return productService.addProduct(saveProductRequest);
     }
 
+    @DeleteMapping("/deletePoduct/{productId}")
+    public SimpleResponse deleteProduct(@PathVariable Long productId){
+        return productService.deleteProduct(productId);
+    }
+
 }
