@@ -2,7 +2,6 @@ package java16.storeegg.service.impl;
 
 import java16.storeegg.dto.SimpleResponse;
 import java16.storeegg.dto.request.SaveProductRequest;
-import java16.storeegg.enums.Category;
 import java16.storeegg.exceptions.ProductNotFout;
 import java16.storeegg.models.Product;
 import java16.storeegg.repo.ProductRepo;
@@ -11,13 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductSerImpl implements ProductService {
-private final ProductRepo productRepo;
+    private final ProductRepo productRepo;
 
     @Override
     public SimpleResponse addProduct(SaveProductRequest saveProductRequest) {
@@ -40,7 +38,7 @@ private final ProductRepo productRepo;
                     .status(HttpStatus.CREATED)
                     .massage("succes createt product")
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return SimpleResponse.builder()
                     .status(HttpStatus.CONFLICT)
                     .massage("error" + e.getMessage())
@@ -64,5 +62,24 @@ private final ProductRepo productRepo;
             throw new ProductNotFout(String.format("Product not found: %s", request));
         }
         return productRepo.searchByNameAndTitle(request);
+    }
+
+    @Override
+    public SimpleResponse deleteProduct(Long productId) {
+
+        Product product = productRepo.findById(productId).orElseThrow(() -> new RuntimeException("not found product Id : " + productId));
+
+        try {
+            productRepo.delete(product);
+            return SimpleResponse.builder()
+                    .status(HttpStatus.OK)
+                    .massage("successfull deletet 👌")
+                    .build();
+        } catch (Exception e) {
+            return SimpleResponse.builder()
+                    .status(HttpStatus.CONFLICT)
+                    .massage("error" + e.getMessage())
+                    .build();
+        }
     }
 }
