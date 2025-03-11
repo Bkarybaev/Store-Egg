@@ -1,5 +1,6 @@
 package java16.storeegg.service.impl;
 
+import java16.storeegg.exceptions.ProductNotFout;
 import java16.storeegg.models.Product;
 import java16.storeegg.repo.ProductRepo;
 import java16.storeegg.service.ProductService;
@@ -21,5 +22,13 @@ private final ProductRepo productRepo;
     @Override
     public Product findById(Long id) {
         return productRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Product> search(String request) {
+        if (request == null || request.isBlank()) {
+            throw new ProductNotFout(String.format("Product not found: %s", request));
+        }
+        return productRepo.searchByNameAndTitle(request);
     }
 }

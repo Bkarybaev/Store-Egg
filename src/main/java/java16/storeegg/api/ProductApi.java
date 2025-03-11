@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
@@ -23,5 +25,10 @@ public class ProductApi {
        return productService.findById(id);
     }
 
+    //search by name product
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam  String query) {
+            return productService.search(query);
+    }
 
 }
