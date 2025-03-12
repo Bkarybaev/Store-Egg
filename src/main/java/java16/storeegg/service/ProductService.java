@@ -18,4 +18,6 @@ public interface ProductService {
     List<Product> search(String request);
 
     SimpleResponse deleteProduct(Long productId);
+
+    void addImageToProduct(Long productId, String fileName);
 }

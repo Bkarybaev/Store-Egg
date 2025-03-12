@@ -5,6 +5,8 @@ import java16.storeegg.enums.Category;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -23,8 +25,10 @@ public class Product {
     private String title;
     private BigDecimal price;
     private String address;
-    private String imageUrl;
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
 
     @ManyToOne
     private Stock stock;

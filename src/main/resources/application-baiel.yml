@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/eggdatabase
+    url: jdbc:postgresql://localhost:5454/eggdatabase
     username: postgres
-    password: Aibek005
+    password: baiel123
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -14,5 +14,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 9999
+  port: 9091
   address: 0.0.0.0
+

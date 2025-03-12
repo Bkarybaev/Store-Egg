@@ -3,7 +3,9 @@ package java16.storeegg.service.impl;
 import java16.storeegg.dto.SimpleResponse;
 import java16.storeegg.dto.request.SaveProductRequest;
 import java16.storeegg.exceptions.ProductNotFout;
+import java16.storeegg.models.Image;
 import java16.storeegg.models.Product;
+import java16.storeegg.repo.ImageRepository;
 import java16.storeegg.repo.ProductRepo;
 import java16.storeegg.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductSerImpl implements ProductService {
     private final ProductRepo productRepo;
+    private final ImageRepository imageRepository;
 
     @Override
     public SimpleResponse addProduct(SaveProductRequest saveProductRequest) {
@@ -26,7 +29,6 @@ public class ProductSerImpl implements ProductService {
         product.setTitle(saveProductRequest.getTitle());
         product.setPrice(saveProductRequest.getPrice());
         product.setAddress(saveProductRequest.getAddress());
-        product.setImageUrl(saveProductRequest.getImageUrl());
         product.setCategory(saveProductRequest.getCategory());
 
         try {
@@ -81,5 +83,21 @@ public class ProductSerImpl implements ProductService {
                     .massage("error" + e.getMessage())
                     .build();
         }
+    }
+
+
+    //image
+
+
+@Override
+public void addImageToProduct(Long productId, String fileName) {
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        Image image = new Image();
+        image.setFileName(fileName);
+        image.setProduct(product);
+
+        imageRepository.save(image);
     }
 }
