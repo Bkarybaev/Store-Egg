@@ -1,5 +1,7 @@
 package java16.storeegg.service.impl;
 
+import java16.storeegg.dto.ImageDto;
+import java16.storeegg.dto.ProductDto;
 import java16.storeegg.dto.SimpleResponse;
 import java16.storeegg.dto.request.SaveProductRequest;
 import java16.storeegg.exceptions.ProductNotFout;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,13 +52,48 @@ public class ProductSerImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll() {
-        return productRepo.findAll();
+    public List<?> getAll() {
+        List<Product> all = productRepo.findAll();
+        List<ProductDto> productDtos = new ArrayList<>();
+        for (Product product : all) {
+            ProductDto productDto = new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setTitle(product.getTitle());
+            productDto.setPrice(product.getPrice());
+            productDto.setAddress(product.getAddress());
+            productDto.setCategory(product.getCategory());
+            List<ImageDto> images = new ArrayList<>();
+            for (Image image : product.getImages()) {
+                ImageDto imageDto = new ImageDto();
+                imageDto.setImg(image.getFileName());
+                images.add(imageDto);
+            }
+            productDto.setImages(images);
+            productDtos.add(productDto);
+        }
+        return productDtos;
     }
 
     @Override
-    public Product findById(Long id) {
-        return productRepo.findById(id).orElse(null);
+    public ProductDto findById(Long id) {
+        Product product = productRepo.findById(id).orElse(null);
+        ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
+        productDto.setName(product.getName());
+        productDto.setTitle(product.getTitle());
+        productDto.setPrice(product.getPrice());
+        productDto.setAddress(product.getAddress());
+        productDto.setCategory(product.getCategory());
+        List<ImageDto> images = new ArrayList<>();
+        for (Image image : product.getImages()) {
+            ImageDto imageDto = new ImageDto();
+            imageDto.setImg(image.getFileName());
+            images.add(imageDto);
+        }
+        productDto.setImages(images);
+        return productDto;
+
     }
 
     @Override

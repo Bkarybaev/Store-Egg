@@ -1,5 +1,6 @@
 package java16.storeegg.api;
 
+import java16.storeegg.dto.ProductDto;
 import java16.storeegg.dto.SimpleResponse;
 import java16.storeegg.dto.request.SaveProductRequest;
 import java16.storeegg.models.Product;
@@ -31,12 +32,12 @@ public class ProductApi {
 
     //get all product
     @GetMapping("/getAll")
-    public List<Product> getAll() {
+    public List<?> getAll() {
         return productService.getAll();
     }
     //find by id
     @GetMapping("/findById/{id}")
-    public Product findById(@PathVariable Long id) {
+    public ProductDto findById(@PathVariable Long id) {
        return productService.findById(id);
     }
 
