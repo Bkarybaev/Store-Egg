@@ -25,9 +25,12 @@ public class Store {
             initialValue = 100)
 
     private Long id;
+
     private String name;
     private String address;
     private String city;
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
 }
